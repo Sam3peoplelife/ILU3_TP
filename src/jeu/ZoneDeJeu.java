@@ -69,7 +69,7 @@ public class ZoneDeJeu {
 		return 50;
 	}
 
-	public boolean ep() {
+	public boolean estPrioritaire() {
 		for (Botte botte : ensembleBottes) {
 			if (botte.getType() == Type.FEU) {
 				return true;
@@ -78,7 +78,7 @@ public class ZoneDeJeu {
 		return false;
 	}
 
-	private boolean pb(Bataille carte) {
+	private boolean possedeBotte(Bataille carte) {
 		for (Botte botte : ensembleBottes) {
 			if (botte.getType() == carte.getType())
 				return true;
@@ -87,7 +87,7 @@ public class ZoneDeJeu {
 	}
 
 	public boolean peutAvancer() {
-		if (pileBataille.isEmpty() && ep()) {
+		if (pileBataille.isEmpty() && estPrioritaire()) {
 			return true;
 		}
 		if (!pileBataille.isEmpty()) {
@@ -95,13 +95,13 @@ public class ZoneDeJeu {
 			if (carteSommet.equals(Cartes.FEU_VERT)) {
 				return true;
 			}
-			if (carteSommet instanceof Parade && ep()) {
+			if (carteSommet instanceof Parade && estPrioritaire()) {
 				return true;
 			}
-			if (carteSommet.equals(Cartes.FEU_ROUGE) && ep()) {
+			if (carteSommet.equals(Cartes.FEU_ROUGE) && estPrioritaire()) {
 				return true;
 			}
-			if (carteSommet instanceof Attaque && pb((Attaque) carteSommet) && ep()) {
+			if (carteSommet instanceof Attaque && possedeBotte((Attaque) carteSommet) && estPrioritaire()) {
 				return true;
 			}
 			pileBataille.remove(0);
@@ -111,7 +111,7 @@ public class ZoneDeJeu {
 	}
 
 	private boolean estDepotFeuVertAutorise() {
-		if (ep()) {
+		if (estPrioritaire()) {
 			return false;
 		}
 		if (pileBataille.isEmpty()) {
@@ -125,7 +125,7 @@ public class ZoneDeJeu {
 		if (carteSommet instanceof Parade && !carteSommet.equals(Cartes.FEU_VERT)) {
 			return true;
 		}
-		if (carteSommet instanceof Attaque && pb((Attaque) carteSommet)) {
+		if (carteSommet instanceof Attaque && possedeBotte((Attaque) carteSommet)) {
 			return true;
 		}
 		return false;
@@ -145,7 +145,7 @@ public class ZoneDeJeu {
 	}
 
 	private boolean estDepotLimiteAutorise(Limite limite) {
-		if (ep()) {
+		if (estPrioritaire()) {
 			return false;
 		}
 		if (limite instanceof DebutLimite
@@ -159,7 +159,7 @@ public class ZoneDeJeu {
 	}
 
 	private boolean estDepotBatailleAutorise(Bataille bataille) {
-		if (pb(bataille)) {
+		if (possedeBotte(bataille)) {
 			return false;
 		}
 		if (bataille instanceof Attaque && peutAvancer())

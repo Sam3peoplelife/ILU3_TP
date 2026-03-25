@@ -33,6 +33,11 @@ public class Joueur {
         Joueur joueur = (Joueur) obj;
         return this.getClass() == joueur.getClass();
     }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom)*7;
+    }
 
     @Override
     public String toString() {
