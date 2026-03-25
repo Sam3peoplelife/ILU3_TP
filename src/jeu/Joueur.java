@@ -35,11 +35,6 @@ public class Joueur {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(nom)*7;
-    }
-
-    @Override
     public String toString() {
         return getNom();
     }
